@@ -31,24 +31,6 @@ function message(respons) {
     $("div.psuccess").text(respons.message).fadeIn(300).delay(2000).fadeOut(400);
 }
 
-FOTO_TAMPILAN_SIDEBAR();
-
-function FOTO_TAMPILAN_SIDEBAR() {
-    $.ajax({
-        url: "/profile/foto_profile",
-        type: "POST",
-        success: function (data) {
-            var respons = data.respons;
-            if (respons.success == 1) {
-                if (respons.data.foto_profil != '') {
-                    $("#foto_tampilan_sidebar").attr("src", respons.folder + respons.data.foto_profil);
-                } else {
-                    $("#foto_tampilan_sidebar").attr("src", respons.folder + "dibajolbae.png");
-                }
-            }
-        },
-    })
-}
 
 function myswalconfirm(text = 'Konfirmasi', btn = 'Ya, lanjutkan') {
     return swal({
