@@ -108,7 +108,7 @@ class KaryawanController extends Controller
                 'nama' => 'required',
                 'id_jabatan' => 'required',
                 'id_unitkerja' => 'required',
-                'password' => 'required',
+                // 'password' => 'required',
                 'status' => 'required',
             ],
             [
@@ -124,7 +124,7 @@ class KaryawanController extends Controller
             'id_unitkerja' => $this->request->id_unitkerja,
             'id_atasan2' => $this->request->id_atasan2,
             'id_atasan1' => $this->request->id_atasan1,
-            'password' => bcrypt($this->request->password),
+            'password' => ($this->request->password == '' ? bcrypt(12345678) : bcrypt($this->request->password)),
             'role' => 2,
             'status' => $this->request->status,
         ];

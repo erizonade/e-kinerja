@@ -108,6 +108,7 @@
                         <label for="password" class="col-sm-2 col-form-label">Password</label>
                         <div class="col-sm-10">
                             <input type="password" placeholder="password" class="form-control"  name="password" id="password">
+                            <span class="text-danger">**jika untuk data baru dan password kosong maka password default 1-8</span>
                         </div>
                     </div>
 

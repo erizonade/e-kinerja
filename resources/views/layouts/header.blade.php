@@ -24,10 +24,6 @@
 <link rel="stylesheet" href="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.css') }}">			
 <!-- DateTimePicker -->
 <link rel="stylesheet" href="{{ asset('assets/plugins/datetime-picker/bootstrap-datetimepicker.min.css') }}">
-<!-- custom css -->
-<link rel="stylesheet" href="{{ asset('assets/admin_pusat/css/style.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/admin_pusat/css/switchbutton.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/admin_pusat/css/switchkonsumen.css') }}">
 <!-- kalender -->
 <link rel="stylesheet" href="{{ asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
 {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" /> --}}

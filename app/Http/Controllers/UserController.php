@@ -90,7 +90,7 @@ class UserController extends Controller
             [
                 'nama' => 'required',
                 'username' => 'required',
-                'password' => 'required',
+                // 'password' => 'required',
                 'status' => 'required',
             ],
             [
@@ -101,7 +101,7 @@ class UserController extends Controller
         $param = [
             'nama' => $this->request->nama,
             'username' => $this->request->username,
-            'password' => bcrypt($this->request->password),
+            'password' => ($this->request->password == '' ? bcrypt(12345678) : bcrypt($this->request->password)),
             'role' => 1,
             'status' => $this->request->status,
         ];

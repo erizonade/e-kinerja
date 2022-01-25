@@ -52,6 +52,20 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link {{ !empty($activeTab) && $activeTab == 'data-laporan' ? 'active' : '' }}" href="{{ url('/admin/riwayat-laporan-admin') }}">
+                            <i class="nav-icon fas fa-file "></i>
+                            <p>Laporan</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ !empty($activeTab) && $activeTab == 'data-password' ? 'active' : '' }}" href="{{ url('/admin/password') }}">
+                            <i class="nav-icon fas fa-key "></i>
+                            <p>Ganti Password</p>
+                        </a>
+                    </li>
+
                 @elseif(Session::get('karyawan')->role == 2)
                     <li class="nav-item">
                         <a class="nav-link {{ !empty($activeTab) && $activeTab == 'data-dashboard' ? 'active' : '' }}" href="{{ url('/karyawan/dashboard_karyawan') }}">
@@ -103,6 +117,13 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link {{ !empty($activeTab) && $activeTab == 'data-password' ? 'active' : '' }}" href="{{ url('/karyawan/password') }}">
+                            <i class="nav-icon fas fa-key "></i>
+                            <p>Ganti Password</p>
+                        </a>
                     </li>
 
                 @else

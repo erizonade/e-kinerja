@@ -211,11 +211,45 @@ class LaporanController extends Controller
         return response()->json(['response' => ['success' => 1, 'message' => 'Berhasil Menghapus Laporan', 'data' => []]]);
     }
 
-    public function riwayatLaporan() 
+    public function riwayatLaporanAdmin() 
     {
-        return view('/karyawan/riwayat_laporan',['nama' => 'Riwayat Laporan'])->with('activeTab','data-riwayat-laporan');
+        return view('/admin/riwayat_laporan',['nama' => 'Riwayat Laporan'])->with('activeTab','data-laporan');
     }
 
+    public function listRiwayatLaporanAdmin()
+    {
+        $data = Laporan::selectRaw('a.nama as namak, tanggal, hari, rincian_kegiatan, status_laporan, hasil, id_laporan, b.nama as namal, a.id_karyawan as idkaryawan')
+                        ->leftjoin('karyawan as a', 'a.id_karyawan', 'laporan_kinerja.id_karyawan')
+                        ->leftjoin('karyawan as b', 'b.id_karyawan', 'laporan_kinerja.id_atasan_verif')
+                        ->where('laporan_kinerja.tanggal','>=', $this->request->tgl_awal)
+                        ->where('laporan_kinerja.tanggal','<=', $this->request->tgl_akhir)
+                        ->groupBy('laporan_kinerja.id_karyawan')
+                        // ->orderBy($order_col, $order_dir)
+                        ->get();
+        return response()->json(['response' => ['success' => 1, 'message' => 'ADA Laporan', 'data' => $data]]);
+    }
+
+    public function printRiwayatLaporanAdmin() 
+    {
+        $data = Laporan::selectRaw('a.nama as namak, a.nip as nipk, b.nip as nipl, tanggal, hari, rincian_kegiatan, status_laporan, hasil, id_laporan, b.nama as namal, c.nama_jabatan, d.nama_unit')
+                        ->leftjoin('karyawan as a', 'a.id_karyawan', 'laporan_kinerja.id_karyawan')
+                        ->leftjoin('karyawan as b', 'b.id_karyawan', 'laporan_kinerja.id_atasan_verif')
+                        ->join('jabatan as c', 'c.id_jabatan', 'a.id_jabatan')
+                        ->join('unit_kerja as d', 'd.id_unitkerja', 'a.id_unitkerja')
+                        ->where('laporan_kinerja.id_karyawan',$this->request->id)
+                        ->where('laporan_kinerja.tanggal','>=', $this->request->awal)
+                        ->where('laporan_kinerja.tanggal','<=', $this->request->akhir)
+                        ->orderBy('laporan_kinerja.tanggal','ASC')
+                        ->get();
+        setlocale(LC_ALL, 'IND');
+        $bln = Carbon::parse($this->request->awal)->formatLocalized("%B");
+        $tgl = Carbon::now()->formatLocalized("%d %B %Y");
+        $thn = Carbon::parse($this->request->awal)->format('Y');
+
+        return view('/karyawan/cetak-riwayat-laporan',compact('data', 'bln', 'thn', 'tgl'));
+        
+    }
+    
     public function listRiwayatLaporan()
     {
         $data = Laporan::selectRaw('a.nama as namak, tanggal, hari, rincian_kegiatan, status_laporan, hasil, id_laporan, b.nama as namal')

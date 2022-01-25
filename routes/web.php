@@ -26,7 +26,13 @@ Route::get('logout',[LoginController::class,'logout'])->name('logout');
 
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auths:1'],function(){
-    Route::get('dashboard_admin',[DashboardController::class,'dashboardAdmin'])->name('dashboard_admin');
+    Route::get('dashboard_admin',[DashboardController::class,'dashboardAdmin'])->name('dashboard_admin');    
+    Route::get('password',[DashboardController::class,'passwordAdmin'])->name('password');    
+    Route::post('update-password',[DashboardController::class,'UpdatePassword'])->name('password');    
+
+    Route::get('riwayat-laporan-admin',[LaporanController::class,'riwayatLaporanAdmin'])->name('riwayat-laporan');
+    Route::get('riwayat-laporan-print',[LaporanController::class,'printRiwayatLaporanAdmin'])->name('riwayat-laporan-print');
+    Route::post('riwayat-laporan-list',[LaporanController::class,'listRiwayatLaporanAdmin'])->name('riwayat-laporan-list');
     Route::resource('user',UserController::class)->names('user');
     Route::resource('karyawan',KaryawanController::class)->names('karyawan');
     Route::resource('unitkerja',UnitKerjaController::class)->names('unitkerja');
@@ -34,7 +40,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auths:1'],function(){
 });
 
 Route::group(['prefix' => 'karyawan', 'middleware' => 'auths:2'],function(){
-    Route::get('dashboard_karyawan',[DashboardController::class,'dashboardKaryawan'])->name('dashboard_karyawan');
+    Route::get('dashboard_karyawan',[DashboardController::class,'dashboardKaryawan'])->name('dashboard_karyawan');  
+    Route::get('password',[DashboardController::class,'passwordKaryawan'])->name('password');    
+    Route::post('update-password',[DashboardController::class,'UpdatePassword'])->name('password');  
     Route::get('laporan-harian-bawahan',[LaporanController::class,'laporanBawahan'])->name('laporan-harian-bawahan');
     Route::get('verif-laporan',[LaporanController::class,'verifLaporan'])->name('verif-laporan');
     Route::get('riwayat-laporan',[LaporanController::class,'riwayatLaporan'])->name('riwayat-laporan');
