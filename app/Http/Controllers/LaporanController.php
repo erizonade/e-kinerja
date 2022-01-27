@@ -215,6 +215,10 @@ class LaporanController extends Controller
     {
         return view('/admin/riwayat_laporan',['nama' => 'Riwayat Laporan'])->with('activeTab','data-laporan');
     }
+    public function riwayatLaporan() 
+    {
+    return view('/karyawan/riwayat_laporan',['nama' => 'Riwayat Laporan'])->with('activeTab','data-riwayat-laporan');
+    }
 
     public function listRiwayatLaporanAdmin()
     {
