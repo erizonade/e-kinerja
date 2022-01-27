@@ -22,5 +22,6 @@
 <!-- Jquery Form -->
 <script src="{{ asset('assets/plugins/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datetime-picker/bootstrap-datetimepicker.min.js') }}"></script>
+<script src="{{ asset('common.js') }}"></script>
 
 

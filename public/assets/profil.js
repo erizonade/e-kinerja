@@ -1,3 +1,8 @@
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 $(function() {
     $('#resetPassword').on('submit', function(e) {
         $(".text-danger").remove()
@@ -22,7 +27,7 @@ $(function() {
                 }
             },
             error: function(xhr) {
-               ERROR_ALERT(xhr)
+                ERROR_ALERT(xhr)
             },
         })
     })
