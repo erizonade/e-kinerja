@@ -17,6 +17,7 @@
                         <th>Tanggal - Hari </th>
                         <th>Rincian Kegiatan</th>
                         <th>Hasil Kegiatan</th>
+                        <th>File Laporan</th>
                         <th>Status</th>
                         <th>Verifikator</th>
                         <th>Aksi</th>
@@ -42,7 +43,7 @@
                     <div class="form-group row">
                         <label for="tanggal" class="col-sm-2 col-form-label">Tanggal</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="Tanggal">
+                            <input type="date" class="form-control" min="{{ date('Y-m-d') }}" id="tanggal" name="tanggal" placeholder="Tanggal">
                         </div>
                     </div> 
 
@@ -57,6 +58,13 @@
                         <label for="hasil" class="col-sm-2 col-form-label">Hasil Kegiatan</label>
                         <div class="col-sm-10">
                             <textarea name="hasil" class="form-control" id="hasil" cols="30" rows="10"></textarea>
+                        </div>
+                    </div> 
+
+                    <div class="form-group row">
+                        <label for="hasil" class="col-sm-2 col-form-label">File Upload</label>
+                        <div class="col-sm-10">
+                           <input type="file" name="file_laporan" id="file_laporan" class="form-control">
                         </div>
                     </div> 
                     

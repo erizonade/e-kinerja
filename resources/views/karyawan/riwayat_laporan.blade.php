@@ -35,6 +35,7 @@
                         <th>Tanggal - Hari </th>
                         <th>Rincian Kegiatan</th>
                         <th>Hasil Kegiatan</th>
+                        <th>File Laporan</th>
                         <th>Status</th>
                         <th>Verifikator</th>
                     </tr>

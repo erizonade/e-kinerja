@@ -36,7 +36,7 @@ class LaporanController extends Controller
                                 ->count();
 
             $totalFiltered = $totalData;
-            $lh = Laporan::selectRaw('a.nama as namak, tanggal, hari, rincian_kegiatan, status_laporan, hasil, id_laporan, b.nama as namal, id_atasan_verif')
+            $lh = Laporan::selectRaw('a.nama as namak, tanggal, hari, rincian_kegiatan, status_laporan, hasil, id_laporan, b.nama as namal, id_atasan_verif, file_laporan')
             ->leftjoin('karyawan as a', 'a.id_karyawan', 'laporan_kinerja.id_karyawan')
             ->leftjoin('karyawan as b', 'b.id_karyawan', 'laporan_kinerja.id_atasan_verif');
             
@@ -62,6 +62,7 @@ class LaporanController extends Controller
                     Carbon::parse($res->tanggal)->format('d/m/Y') ." - ". $res->hari,
                     $res->rincian_kegiatan,
                     $res->hasil,
+                    '<a href="/Laporan/'.$res->file_laporan.'"><i class="fas fa-file"></i> File</a>',
                     '<div class="btn btn-sm btn-'.($res->status_laporan == 'Proses' ? 'warning' : ($res->status_laporan == 'Ditolak' ? 'danger' : 'success') ).'">'.$res->status_laporan.'</div>',
                     $res->namal,
                     (empty($res->id_atasan_verif) ? '<button class="btn btn-sm btn-info edit" data-id="' . $res->id_laporan . '"><i class="fas fa-pen"></i></button>
@@ -112,11 +113,18 @@ class LaporanController extends Controller
                 'tanggal'          => 'required',
                 'rincian_kegiatan' => 'required',
                 'hasil'            => 'required',
+                'file_laporan'     => 'required|mimes:pdf,doc,docx,xlsx|max:2048',
             ],
             [
                 'required'  => 'kolom wajib di isi'
             ]
         );
+
+        //file upload file_laporan
+        $fileFolder = 'Laporan';
+        $file     = $request->file('file_laporan');
+        $fileName = time().$file->getClientOriginalName();
+        $file->move($fileFolder, $fileName);
 
         $params = [
             'id_karyawan'      => Session::get('karyawan')->id_karyawan,
@@ -124,6 +132,7 @@ class LaporanController extends Controller
             'rincian_kegiatan' => $this->request->rincian_kegiatan,
             'hasil'            => $this->request->hasil,
             'hari'             => $day,
+            'file_laporan'     => $fileName,
             'status_laporan'   => 'Proses',
             'created_at'       => Carbon::now(),
         ];
@@ -184,12 +193,22 @@ class LaporanController extends Controller
             ]
         );
 
+        //file upload update_file
+        $fileLaporan = Laporan::find($id);
+        if ($request->hasFile('file_laporan')) {
+            $fileFolder = 'Laporan';
+            $file     = $request->file('file_laporan');
+            $fileName = time().$file->getClientOriginalName();
+            $file->move($fileFolder, $fileName);
+        }
+
         $params = [
             'id_karyawan'      => Session::get('karyawan')->id_karyawan,
             'tanggal'          => $this->request->tanggal,
             'rincian_kegiatan' => $this->request->rincian_kegiatan,
             'hasil'            => $this->request->hasil,
             'hari'             => $day,
+            'file_laporan'     => (!empty($fileName) ? $fileName : $fileLaporan->file_laporan),
             'status_laporan'   => 'Proses',
             'created_at'       => Carbon::now(),
         ];
@@ -256,7 +275,7 @@ class LaporanController extends Controller
     
     public function listRiwayatLaporan()
     {
-        $data = Laporan::selectRaw('a.nama as namak, tanggal, hari, rincian_kegiatan, status_laporan, hasil, id_laporan, b.nama as namal')
+        $data = Laporan::selectRaw('a.nama as namak, tanggal, hari, rincian_kegiatan, status_laporan, hasil, id_laporan, b.nama as namal, file_laporan')
                         ->leftjoin('karyawan as a', 'a.id_karyawan', 'laporan_kinerja.id_karyawan')
                         ->leftjoin('karyawan as b', 'b.id_karyawan', 'laporan_kinerja.id_atasan_verif')
                         ->where('laporan_kinerja.id_karyawan',Session::get('karyawan')->id_karyawan)
@@ -306,7 +325,7 @@ class LaporanController extends Controller
                                 ->where('laporan_kinerja.tanggal','>=', $awal)
                                 ->where('laporan_kinerja.tanggal','<=', $akhir)->count();
             $totalFiltered = $totalData;
-            $lh = Laporan::selectRaw('a.nama as namak, tanggal, hari, rincian_kegiatan, status_laporan, hasil, id_laporan, b.nama as namal')
+            $lh = Laporan::selectRaw('a.nama as namak, tanggal, hari, rincian_kegiatan, status_laporan, hasil, id_laporan, b.nama as namal, file_laporan')
             ->leftjoin('karyawan as a', 'a.id_karyawan', 'laporan_kinerja.id_karyawan')
             ->leftjoin('karyawan as b', 'b.id_karyawan', 'laporan_kinerja.id_atasan_verif');
             
@@ -332,7 +351,8 @@ class LaporanController extends Controller
                     $no++,
                     Carbon::parse($res->tanggal)->format('d/m/Y') ." - ". $res->hari,
                     $res->rincian_kegiatan,
-                    $res->hasil,
+                    $res->hasil,                    
+                    '<a href="/Laporan/'.$res->file_laporan.'"><i class="fas fa-file"></i> File</a>',
                     '<div class="btn btn-sm btn-'.($res->status_laporan == 'Proses' ? 'warning' : ($res->status_laporan == 'Ditolak' ? 'danger' : 'success') ).'">'.$res->status_laporan.'</div>',
                     $res->namal,
                     '<div class="dropdown">

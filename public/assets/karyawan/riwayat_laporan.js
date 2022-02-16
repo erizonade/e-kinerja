@@ -29,6 +29,7 @@ $(function () {
                                 <td>${el.tanggal} / ${el.hari} </td>
                                 <td>${el.rincian_kegiatan}</td>
                                 <td>${el.hasil}</td>
+                                <td><a href="/Laporan/${el.file_laporan}"><i class="fas fa-file"></i> File</a></td>
                                 <td><div class="btn btn-sm btn-${(el.status_laporan == `Proses` ? `warning` : (el.status_laporan == `Ditolak` ? `danger` : `success`))}">${el.status_laporan}</div></td>
                                 <td>${el.namal ?? `-`}</td>
                             </tr>

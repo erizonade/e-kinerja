@@ -48,6 +48,7 @@
                         <th width='5%'>No</th>
                         <th>Tanggal - Hari </th>
                         <th>Rincian Kegiatan</th>
+                        <th>File Laporan</th>
                         <th>Hasil Kegiatan</th>
                         <th>Status</th>
                         <th>Verifikator</th>
