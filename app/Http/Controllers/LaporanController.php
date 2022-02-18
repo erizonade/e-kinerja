@@ -23,7 +23,7 @@ class LaporanController extends Controller
     public function index()
     {
         if($this->request->ajax()){
-            $columns = ['id_laporan', 'tanggal', 'rincian_kegiatan', 'hasil', 'status_laporan', 'id_atasan_verif', 'id_laporan'];
+            $columns = ['id_laporan', 'tanggal', 'rincian_kegiatan', 'hasil', 'status_laporan', 'status_laporan','id_atasan_verif', 'id_laporan'];
 
             $search = $this->request['search']['value'];
             $start  = $this->request['start'];
@@ -41,7 +41,7 @@ class LaporanController extends Controller
             ->leftjoin('karyawan as b', 'b.id_karyawan', 'laporan_kinerja.id_atasan_verif');
             
             if(!empty($search)){
-                $lh->whereRaw('(namak LIKE "%' . $search . '%")');
+                $lh->whereRaw('(rincian_kegiatan LIKE "%' . $search . '%" OR hasil LIKE "%' . $search . '%")');
             }
 
             $totalFiltered = $lh->where('laporan_kinerja.id_karyawan',Session::get('karyawan')->id_karyawan)
